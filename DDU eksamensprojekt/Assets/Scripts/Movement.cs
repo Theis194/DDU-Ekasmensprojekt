@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Movement : MonoBehaviour
 {
@@ -12,26 +13,41 @@ public class Movement : MonoBehaviour
     public Transform groundCheck;
     public float groundDistance = 0.4f;
     bool Grounded;
-    void Start()
+
+    PlayerControls controls;
+    private void Awake()
     {
-        rb = GetComponent<Rigidbody>();
+        controls = new PlayerControls();
+        controls.Gameplay.Jump.performed += Jump_performed;
     }
 
-    void Update()
+    private void OnEnable()
+    {
+        controls.Enable();
+    }
+
+    private void OnDisable()
+    {
+        controls.Disable();
+    }
+
+    private void Jump_performed(InputAction.CallbackContext obj)
     {
         Grounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundLayerMask);
-        //Jump
-        if(Input.GetButtonDown("Jump") && Grounded)
+        if (Grounded)
         {
             rb.AddForce(new Vector3(0, jump, 0), ForceMode.Impulse);
         }
     }
 
+    void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
+
     private void FixedUpdate()
     {
-        //Floats til input af Horizontal og Vertikal movement
-        float mH = Input.GetAxis("Horizontal");
-        float mV = Input.GetAxis("Vertical");
-        rb.velocity = new Vector3(mH * speed, rb.velocity.y, rb.velocity.z);
+        Vector2 moveInput = controls.Gameplay.Move.ReadValue<Vector2>();
+        rb.velocity = new Vector3(moveInput.x * speed, rb.velocity.y, rb.velocity.z);
     }
 }
