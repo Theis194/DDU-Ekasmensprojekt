@@ -9,8 +9,11 @@ public class Bullet : MonoBehaviour
 
     public float power;
     public float radius;
+    public float upForce = 1f;
 
     public Rigidbody rb;
+
+    public ParticleSystem shockwave;
 
     Gun gun;
     void Start()
@@ -30,22 +33,26 @@ public class Bullet : MonoBehaviour
         Vector3 explosionPos = transform.position;
         Collider[] colliders = Physics.OverlapSphere(explosionPos, radius);
 
+        shockwave.Play();
+
         foreach (Collider hit in colliders)
         {
             Rigidbody rigidbody = hit.GetComponent<Rigidbody>();
 
             if (rigidbody != null)
             {
-                rigidbody.AddExplosionForce(power, explosionPos, radius);
+                rigidbody.AddExplosionForce(power, explosionPos, radius, upForce, ForceMode.Impulse);
             }
         }
 
+        shockwave.Stop();
         Destroy(this.gameObject);
     }
 
     //this is how you draw gizmos
     private void OnDrawGizmos()
     {
-        
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, radius);
     }
 }

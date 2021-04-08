@@ -6,9 +6,12 @@ using UnityEngine.InputSystem;
 public class Movement : MonoBehaviour
 {
     [SerializeField] private LayerMask groundLayerMask;
-    public float speed;
+    //public float speed;
     public float jump;
     public Rigidbody rb;
+
+    public float speed = 10.0f;
+    public float maxVelocityChange = 10.0f;
 
     public Transform groundCheck;
     public float groundDistance = 0.4f;
@@ -48,6 +51,18 @@ public class Movement : MonoBehaviour
     private void FixedUpdate()
     {
         Vector2 moveInput = controls.Gameplay.Move.ReadValue<Vector2>();
-        rb.velocity = new Vector3(moveInput.x * speed, rb.velocity.y, rb.velocity.z);
+        Vector3 targetVelocity = new Vector3(moveInput.x, 0, 0);
+        targetVelocity = transform.TransformDirection(targetVelocity);
+        targetVelocity *= speed;
+
+        Vector3 velocity = rb.velocity;
+        Vector3 velocityChange = (targetVelocity - velocity);
+        velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
+        velocityChange.y = 0;
+        velocityChange.z = 0;
+        rb.AddForce(velocityChange, ForceMode.Force);
+
+
+        //rb.velocity = new Vector3(moveInput.x * speed, rb.velocity.y, rb.velocity.z);
     }
 }
