@@ -33,8 +33,6 @@ public class Bullet : MonoBehaviour
         Vector3 explosionPos = transform.position;
         Collider[] colliders = Physics.OverlapSphere(explosionPos, radius);
 
-        shockwave.Play();
-
         foreach (Collider hit in colliders)
         {
             Rigidbody rigidbody = hit.GetComponent<Rigidbody>();
@@ -45,7 +43,8 @@ public class Bullet : MonoBehaviour
             }
         }
 
-        shockwave.Stop();
+        Instantiate(shockwave, transform.position, Quaternion.identity);
+
         Destroy(this.gameObject);
     }
 

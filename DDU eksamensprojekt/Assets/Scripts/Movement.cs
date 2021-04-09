@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class Movement : MonoBehaviour
 {
@@ -22,6 +23,7 @@ public class Movement : MonoBehaviour
     {
         controls = new PlayerControls();
         controls.Gameplay.Jump.performed += Jump_performed;
+        controls.Gameplay.Restart.performed += Restart_performed;
     }
 
     private void OnEnable()
@@ -41,6 +43,11 @@ public class Movement : MonoBehaviour
         {
             rb.AddForce(new Vector3(0, jump, 0), ForceMode.Impulse);
         }
+    }
+
+    private void Restart_performed (InputAction.CallbackContext obj)
+    {
+        SceneManager.LoadScene("Main");
     }
 
     void Start()
