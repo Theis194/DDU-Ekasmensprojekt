@@ -24,7 +24,12 @@ public class Movement : MonoBehaviour
     public PlayerControls controls;
 
     public GameObject gun;
+    public GameObject spawnPoint1;
+    public GameObject spawnPoint2;
 
+    GameObject[] spawnPoints;
+
+    Random rnd = new Random();
     private void OnEnable()
     {
         controls.Enable();
@@ -47,6 +52,8 @@ public class Movement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        spawnPoints[1] = spawnPoint1;
+        spawnPoints[2] = spawnPoint2;
     }
 
     private void FixedUpdate()
@@ -63,6 +70,10 @@ public class Movement : MonoBehaviour
         velocityChange.z = 0;
         rb.AddForce(velocityChange, ForceMode.Force);
 
+        if(groundCheck.position.y < -12)
+        {
+            this.transform.position = 
+        }
 
         //rb.velocity = new Vector3(moveInput.x * speed, rb.velocity.y, rb.velocity.z);
     }
