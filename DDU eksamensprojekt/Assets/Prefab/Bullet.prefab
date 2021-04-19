@@ -111,11 +111,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletSpeed: 400
   timer: 3
-  power: 10
+  power: 20
   radius: 1
   upForce: 0.1
   rb: {fileID: 4403226898426412530}
   shockwave: {fileID: 2834119004538935549, guid: 412bf0dc145ef2047bd36207bdd84075, type: 3}
+  gun: {fileID: 0}
 --- !u!54 &4403226898426412530
 Rigidbody:
   m_ObjectHideFlags: 0

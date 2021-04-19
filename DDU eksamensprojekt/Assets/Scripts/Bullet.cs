@@ -15,11 +15,9 @@ public class Bullet : MonoBehaviour
 
     public ParticleSystem shockwave;
 
-    Gun gun;
+    public Gun gun;
     void Start()
     {
-        gun = GameObject.Find("gun").GetComponent<Gun>();
-        
         if(gun != null)
         {
             //Debug.Log(other.direction);

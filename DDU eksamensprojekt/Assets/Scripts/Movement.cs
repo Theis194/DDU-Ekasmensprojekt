@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem.Controls;
+using UnityEngine.InputSystem.LowLevel;
+using UnityEngine.InputSystem.Users;
 
 public class Movement : MonoBehaviour
 {
@@ -18,13 +21,9 @@ public class Movement : MonoBehaviour
     public float groundDistance = 0.4f;
     bool Grounded;
 
-    PlayerControls controls;
-    private void Awake()
-    {
-        controls = new PlayerControls();
-        controls.Gameplay.Jump.performed += Jump_performed;
-        controls.Gameplay.Restart.performed += Restart_performed;
-    }
+    public PlayerControls controls;
+
+    public GameObject gun;
 
     private void OnEnable()
     {
@@ -33,7 +32,7 @@ public class Movement : MonoBehaviour
 
     private void OnDisable()
     {
-        controls.Disable();
+        //controls.Disable();
     }
 
     private void Jump_performed(InputAction.CallbackContext obj)
@@ -43,11 +42,6 @@ public class Movement : MonoBehaviour
         {
             rb.AddForce(new Vector3(0, jump, 0), ForceMode.Impulse);
         }
-    }
-
-    private void Restart_performed (InputAction.CallbackContext obj)
-    {
-        SceneManager.LoadScene("Main");
     }
 
     void Start()
@@ -71,5 +65,13 @@ public class Movement : MonoBehaviour
 
 
         //rb.velocity = new Vector3(moveInput.x * speed, rb.velocity.y, rb.velocity.z);
+    }
+
+    public void BindControls(PlayerControls controls)
+    {
+        this.controls = controls;
+        controls.Gameplay.Jump.performed += Jump_performed;
+        this.controls.Enable();
+        gun.GetComponent<Gun>().BindControls(controls);
     }
 }

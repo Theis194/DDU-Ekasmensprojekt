@@ -38,12 +38,6 @@ public class Gun : MonoBehaviour
         //Debug.Log(direction);
     }
 
-    private void Awake()
-    {
-        controls = new PlayerControls();
-        controls.Gameplay.Shoot.performed += Shoot_performed;
-    }
-
     private void OnEnable()
     {
         controls.Enable();
@@ -56,6 +50,14 @@ public class Gun : MonoBehaviour
 
     private void Shoot_performed(InputAction.CallbackContext obj)
     {
-        Instantiate(Bullet, firePosition.transform.position, Quaternion.identity);
+        GameObject bullet = Instantiate(Bullet, firePosition.transform.position, Quaternion.identity);
+        bullet.GetComponent<Bullet>().gun = GetComponent<Gun>();
+    }
+
+    public void BindControls(PlayerControls controls)
+    {
+        this.controls = controls;
+        controls.Gameplay.Shoot.performed += Shoot_performed;
+        this.controls.Enable();
     }
 }
