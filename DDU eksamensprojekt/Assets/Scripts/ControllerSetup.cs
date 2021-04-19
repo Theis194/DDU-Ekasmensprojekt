@@ -14,8 +14,10 @@ public class ControllerSetup : MonoBehaviour
     //public GameObject player3;
     //public GameObject player4;
 
-    public Transform spawnPoint1;
-    public Transform spawnPoint2;
+    public GameObject spawnPoint1;
+    public GameObject spawnPoint2;
+    public GameObject spawnPoint3;
+    public GameObject spawnPoint4;
 
     private PlayerControls controls;
     private int maxPlayers = 4;
@@ -53,14 +55,14 @@ public class ControllerSetup : MonoBehaviour
         {
             player1.GetComponent<Movement>().BindControls(controlsForUser);
             player1.SetActive(true);
-            player1.transform.position = spawnPoint1.position;
+            player1.transform.position = spawnPoint1.transform.position;
             players.Add(player1.GetComponent<Movement>());
         }
         else if(players.Count == 1)
         {
             player2.GetComponent<Movement>().BindControls(controlsForUser);
             player2.SetActive(true);
-            player2.transform.position = spawnPoint2.position;
+            player2.transform.position = spawnPoint2.transform.position;
             players.Add(player2.GetComponent<Movement>());
         }
 

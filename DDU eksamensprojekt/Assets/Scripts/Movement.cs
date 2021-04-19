@@ -14,6 +14,8 @@ public class Movement : MonoBehaviour
     public float jump;
     public Rigidbody rb;
 
+    public GameObject player;
+
     public float speed = 10.0f;
     public float maxVelocityChange = 10.0f;
 
@@ -26,10 +28,10 @@ public class Movement : MonoBehaviour
     public GameObject gun;
     public GameObject spawnPoint1;
     public GameObject spawnPoint2;
+    public GameObject spawnPoint3;
+    public GameObject spawnPoint4;
 
-    GameObject[] spawnPoints;
-
-    Random rnd = new Random();
+    GameObject[] spawnPoints = new GameObject[4];
     private void OnEnable()
     {
         controls.Enable();
@@ -37,7 +39,7 @@ public class Movement : MonoBehaviour
 
     private void OnDisable()
     {
-        //controls.Disable();
+        controls.Disable();
     }
 
     private void Jump_performed(InputAction.CallbackContext obj)
@@ -52,8 +54,10 @@ public class Movement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        spawnPoints[1] = spawnPoint1;
-        spawnPoints[2] = spawnPoint2;
+        spawnPoints[0] = spawnPoint1;
+        spawnPoints[1] = spawnPoint2;
+        spawnPoints[2] = spawnPoint3;
+        spawnPoints[3] = spawnPoint4;
     }
 
     private void FixedUpdate()
@@ -70,9 +74,9 @@ public class Movement : MonoBehaviour
         velocityChange.z = 0;
         rb.AddForce(velocityChange, ForceMode.Force);
 
-        if(groundCheck.position.y < -12)
+        if(rb.transform.position.y < -10)
         {
-            this.transform.position = 
+            player.transform.position = spawnPoints[Random.Range(0, 3)].transform.position;
         }
 
         //rb.velocity = new Vector3(moveInput.x * speed, rb.velocity.y, rb.velocity.z);

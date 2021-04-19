@@ -7,16 +7,21 @@ public class Gun : MonoBehaviour
 {
     public GameObject svivel;
     public GameObject gun;
-
-    public PlayerControls controls;
-
     public GameObject Bullet;
     public GameObject firePosition;
 
+    public PlayerControls controls;
+
     public Vector3 direction;
-    void Start()
+
+    float cooldown;
+    public float cooldownLength = 0.5f;
+
+    private bool readyToShoot = false;
+
+    private void Start()
     {
-        
+        cooldown = cooldownLength;
     }
 
     void FixedUpdate()
@@ -38,6 +43,20 @@ public class Gun : MonoBehaviour
         //Debug.Log(direction);
     }
 
+    private void Update()
+    {
+        if(readyToShoot == false && cooldown > 0)
+        {
+            cooldown -= Time.deltaTime;
+            Debug.Log(cooldown);
+            if(cooldown <= 0)
+            {
+                readyToShoot = true;
+            }
+        }
+        Debug.Log("ready");
+    }
+
     private void OnEnable()
     {
         controls.Enable();
@@ -50,8 +69,14 @@ public class Gun : MonoBehaviour
 
     private void Shoot_performed(InputAction.CallbackContext obj)
     {
-        GameObject bullet = Instantiate(Bullet, firePosition.transform.position, Quaternion.identity);
-        bullet.GetComponent<Bullet>().gun = GetComponent<Gun>();
+        if(readyToShoot == true)
+        {
+            GameObject bullet = Instantiate(Bullet, firePosition.transform.position, Quaternion.identity);
+            bullet.GetComponent<Bullet>().gun = GetComponent<Gun>();
+            cooldown = cooldownLength;
+            readyToShoot = false;
+        }
+        
     }
 
     public void BindControls(PlayerControls controls)
