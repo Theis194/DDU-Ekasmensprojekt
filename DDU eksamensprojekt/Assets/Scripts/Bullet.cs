@@ -46,6 +46,14 @@ public class Bullet : MonoBehaviour
         Destroy(this.gameObject);
     }
 
+    private void Update()
+    {
+        if (this.transform.position.y <= -10)
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
     //this is how you draw gizmos
     private void OnDrawGizmos()
     {

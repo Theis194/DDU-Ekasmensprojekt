@@ -37,10 +37,7 @@ public class Gun : MonoBehaviour
         float x = firePosition.transform.position.x - svivel.transform.position.x;
         float y = firePosition.transform.position.y - svivel.transform.position.y;
 
-        //Debug.Log("X: " + x + "Y: " + y + "Z: " + z);
-
         direction = new Vector3(x, y, 0);
-        //Debug.Log(direction);
     }
 
     private void Update()
@@ -54,7 +51,6 @@ public class Gun : MonoBehaviour
                 readyToShoot = true;
             }
         }
-        Debug.Log("ready");
     }
 
     private void OnEnable()
@@ -76,7 +72,6 @@ public class Gun : MonoBehaviour
             cooldown = cooldownLength;
             readyToShoot = false;
         }
-        
     }
 
     public void BindControls(PlayerControls controls)

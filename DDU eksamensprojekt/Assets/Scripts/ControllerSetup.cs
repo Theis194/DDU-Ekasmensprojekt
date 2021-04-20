@@ -37,7 +37,7 @@ public class ControllerSetup : MonoBehaviour
 
     private void UnpairedDeviceUsed(InputControl control, InputEventPtr eventPtr)
     {
-        if(!(control is ButtonControl)||control.device.displayName == "keyboard"|| control.device.displayName == "Mouse")
+        if(!(control is ButtonControl)||control.device.displayName == "Keyboard"|| control.device.displayName == "Mouse")
         {
             return;
         }
