@@ -45,7 +45,6 @@ public class Gun : MonoBehaviour
         if(readyToShoot == false && cooldown > 0)
         {
             cooldown -= Time.deltaTime;
-            Debug.Log(cooldown);
             if(cooldown <= 0)
             {
                 readyToShoot = true;

@@ -15,6 +15,7 @@ public class Movement : MonoBehaviour
     public Rigidbody rb;
 
     public GameObject player;
+    public GameObject deathcount;
 
     public float speed = 10.0f;
     public float maxVelocityChange = 10.0f;
@@ -77,6 +78,7 @@ public class Movement : MonoBehaviour
         if(rb.transform.position.y < -10)
         {
             player.transform.position = spawnPoints[Random.Range(0, 3)].transform.position;
+            deathcount.GetComponent<Deathcount>().deadPlayers.Add(this.name);
         }
 
         //rb.velocity = new Vector3(moveInput.x * speed, rb.velocity.y, rb.velocity.z);
