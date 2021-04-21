@@ -10,9 +10,10 @@ using UnityEngine.InputSystem.Users;
 public class Movement : MonoBehaviour
 {
     [SerializeField] private LayerMask groundLayerMask;
-    //public float speed;
     public float jump;
     public Rigidbody rb;
+
+    float deaths;
 
     public GameObject player;
     public GameObject deathcount;

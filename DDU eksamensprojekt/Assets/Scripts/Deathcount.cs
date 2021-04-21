@@ -9,13 +9,16 @@ public class Deathcount : MonoBehaviour
     public Text player2Text;
     public Text player3Text;
     public Text player4Text;
+    public Text timer;
 
     public List<string> deadPlayers = new List<string>();
 
-    int player1Deaths;
-    int player2Deaths;
-    int player3Deaths;
-    int player4Deaths;
+    public int player1Deaths = -1;
+    public int player2Deaths = -1;
+    public int player3Deaths = -1;
+    public int player4Deaths = -1;
+    
+    float gameTimer = 20;
 
     Text[] text = new Text[4];
     int[] playerDeaths = new int[4];
@@ -23,11 +26,17 @@ public class Deathcount : MonoBehaviour
     private void Start()
     {
         Text[] text = { player1Text, player2Text, player3Text, player4Text };
-        int[] playerDeaths = { player1Deaths, player2Deaths, player3Deaths, player4Deaths };
     }
 
     void Update()
     {
+        string minutes = Mathf.FloorToInt(gameTimer / 60).ToString("0");
+        string seconds = Mathf.RoundToInt(gameTimer % 60).ToString("00");
+
+        timer.text = minutes + ":" + seconds;
+
+        gameTimer -= Time.deltaTime;
+
         foreach (string item in deadPlayers)
         {
             switch (item)
@@ -50,10 +59,79 @@ public class Deathcount : MonoBehaviour
                     break;
             }
         }
+        
+        if(player1Deaths >= 0)
+            player1Text.text = player1Deaths.ToString();
 
-        player1Text.text = player1Deaths.ToString();
-        player2Text.text = player2Deaths.ToString();
-        player3Text.text = player3Deaths.ToString();
-        player4Text.text = player4Deaths.ToString();
+        if (player2Deaths >= 0)
+            player2Text.text = player2Deaths.ToString();
+
+        if (player3Deaths >= 0)
+            player3Text.text = player3Deaths.ToString();
+
+        if (player4Deaths >= 0)
+            player4Text.text = player4Deaths.ToString();
+
+        if(gameTimer <= 0)
+        {
+            Time.timeScale = 0;
+            if (GetComponent<ControllerSetup>().players.Count == 2)
+            {
+                if(player1Deaths < player2Deaths)
+                {
+                    timer.text = "Green slime won!";
+                }
+                else if (player1Deaths > player2Deaths)
+                {
+                    timer.text = "Blue slime won!";
+                }
+                else
+                {
+                    timer.text = "Tie";
+                }
+            }
+            else if (GetComponent<ControllerSetup>().players.Count == 3)
+            {
+                if ((player1Deaths > player2Deaths) && (player1Deaths > player3Deaths))
+                {
+                    timer.text = "Green slime won!";
+                }
+                else if ((player1Deaths > player2Deaths) && (player1Deaths > player3Deaths))
+                {
+                    timer.text = "Blue slime won!";
+                }
+                else if ((player3Deaths > player2Deaths) && (player3Deaths > player4Deaths))
+                {
+                    timer.text = "Orange slime won!";
+                }
+                else
+                {
+                    timer.text = "Tie";
+                }
+            }
+            else if (GetComponent<ControllerSetup>().players.Count == 4)
+            {
+                if ((player1Deaths > player2Deaths) && (player1Deaths > player3Deaths) && (player1Deaths > player4Deaths))
+                {
+                    timer.text = "Green slime won!";
+                }
+                if ((player1Deaths > player2Deaths) && (player1Deaths > player3Deaths) && (player2Deaths > player4Deaths))
+                {
+                    timer.text = "Blue slime won!";
+                }
+                if ((player3Deaths > player2Deaths) && (player3Deaths > player4Deaths) && (player3Deaths > player4Deaths))
+                {
+                    timer.text = "Orange slime won!";
+                }
+                if ((player4Deaths > player2Deaths) && (player4Deaths > player3Deaths) && (player4Deaths > player1Deaths))
+                {
+                    timer.text = "Red slime won!";
+                }
+                else
+                {
+                    timer.text = "Tie";
+                }
+            }
+        }
     }
 }

@@ -21,7 +21,7 @@ public class ControllerSetup : MonoBehaviour
 
     private PlayerControls controls;
     private int maxPlayers = 4;
-    private List<Movement> players;
+    public List<Movement> players;
 
     private void Awake()
     {
@@ -57,6 +57,7 @@ public class ControllerSetup : MonoBehaviour
             player1.SetActive(true);
             player1.transform.position = spawnPoint1.transform.position;
             players.Add(player1.GetComponent<Movement>());
+            GetComponent<Deathcount>().player1Deaths = 0;
         }
         else if(players.Count == 1)
         {
@@ -64,6 +65,7 @@ public class ControllerSetup : MonoBehaviour
             player2.SetActive(true);
             player2.transform.position = spawnPoint2.transform.position;
             players.Add(player2.GetComponent<Movement>());
+            GetComponent<Deathcount>().player2Deaths = 0;
         }
 
         List<GameObject> tempPlayers = new List<GameObject>();
