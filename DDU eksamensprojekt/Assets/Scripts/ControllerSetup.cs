@@ -11,7 +11,7 @@ public class ControllerSetup : MonoBehaviour
 {
     public GameObject player1;
     public GameObject player2;
-    //public GameObject player3;
+    public GameObject player3;
     //public GameObject player4;
 
     public GameObject spawnPoint1;
@@ -66,6 +66,14 @@ public class ControllerSetup : MonoBehaviour
             player2.transform.position = spawnPoint2.transform.position;
             players.Add(player2.GetComponent<Movement>());
             GetComponent<Deathcount>().player2Deaths = 0;
+        }
+        else if (players.Count == 2)
+        {
+            player3.GetComponent<Movement>().BindControls(controlsForUser);
+            player3.SetActive(true);
+            player3.transform.position = spawnPoint3.transform.position;
+            players.Add(player3.GetComponent<Movement>());
+            GetComponent<Deathcount>().player3Deaths = 0;
         }
 
         List<GameObject> tempPlayers = new List<GameObject>();

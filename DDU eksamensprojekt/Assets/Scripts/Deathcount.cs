@@ -17,8 +17,13 @@ public class Deathcount : MonoBehaviour
     public int player2Deaths = -1;
     public int player3Deaths = -1;
     public int player4Deaths = -1;
-    
-    float gameTimer = 20;
+
+    public GameObject player1;
+    public GameObject player2;
+    public GameObject player3;
+    public GameObject player4;
+
+    float gameTimer = 120;
 
     Text[] text = new Text[4];
     int[] playerDeaths = new int[4];
@@ -30,12 +35,15 @@ public class Deathcount : MonoBehaviour
 
     void Update()
     {
-        string minutes = Mathf.FloorToInt(gameTimer / 60).ToString("0");
-        string seconds = Mathf.RoundToInt(gameTimer % 60).ToString("00");
+        if (gameTimer > 0)
+        {
+            string minutes = Mathf.FloorToInt(gameTimer / 60).ToString("0");
+            string seconds = Mathf.RoundToInt(gameTimer % 60).ToString("00");
 
-        timer.text = minutes + ":" + seconds;
+            timer.text = minutes + ":" + seconds;
 
-        gameTimer -= Time.deltaTime;
+            gameTimer -= Time.deltaTime;
+        }
 
         foreach (string item in deadPlayers)
         {
@@ -72,9 +80,14 @@ public class Deathcount : MonoBehaviour
         if (player4Deaths >= 0)
             player4Text.text = player4Deaths.ToString();
 
+        Debug.Log(gameTimer);
         if(gameTimer <= 0)
         {
-            Time.timeScale = 0;
+            player1.GetComponent<Movement>().enabled = false;
+            player2.GetComponent<Movement>().enabled = false;
+            player3.GetComponent<Movement>().enabled = false;
+            //player4.GetComponent<Movement>().enabled = false;
+
             if (GetComponent<ControllerSetup>().players.Count == 2)
             {
                 if(player1Deaths < player2Deaths)
@@ -109,29 +122,31 @@ public class Deathcount : MonoBehaviour
                     timer.text = "Tie";
                 }
             }
-            else if (GetComponent<ControllerSetup>().players.Count == 4)
-            {
-                if ((player1Deaths > player2Deaths) && (player1Deaths > player3Deaths) && (player1Deaths > player4Deaths))
-                {
-                    timer.text = "Green slime won!";
-                }
-                if ((player1Deaths > player2Deaths) && (player1Deaths > player3Deaths) && (player2Deaths > player4Deaths))
-                {
-                    timer.text = "Blue slime won!";
-                }
-                if ((player3Deaths > player2Deaths) && (player3Deaths > player4Deaths) && (player3Deaths > player4Deaths))
-                {
-                    timer.text = "Orange slime won!";
-                }
-                if ((player4Deaths > player2Deaths) && (player4Deaths > player3Deaths) && (player4Deaths > player1Deaths))
-                {
-                    timer.text = "Red slime won!";
-                }
-                else
-                {
-                    timer.text = "Tie";
-                }
-            }
+            //else if (GetComponent<ControllerSetup>().players.Count == 4)
+            //{
+            //    if ((player1Deaths > player2Deaths) && (player1Deaths > player3Deaths) && (player1Deaths > player4Deaths))
+            //    {
+            //        timer.text = "Green slime won!";
+            //    }
+            //    if ((player1Deaths > player2Deaths) && (player1Deaths > player3Deaths) && (player2Deaths > player4Deaths))
+            //    {
+            //        timer.text = "Blue slime won!";
+            //    }
+            //    if ((player3Deaths > player2Deaths) && (player3Deaths > player4Deaths) && (player3Deaths > player4Deaths))
+            //    {
+            //        timer.text = "Orange slime won!";
+            //    }
+            //    if ((player4Deaths > player2Deaths) && (player4Deaths > player3Deaths) && (player4Deaths > player1Deaths))
+            //    {
+            //        timer.text = "Red slime won!";
+            //    }
+            //    else
+            //    {
+            //        timer.text = "Tie";
+            //    }
+            //}
         }
+
+        GetComponent<GameplayController>().StartCoroutine("StartNewGame");
     }
 }
