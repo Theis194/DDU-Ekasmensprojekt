@@ -66,6 +66,7 @@ public class Gun : MonoBehaviour
     {
         if(readyToShoot == true)
         {
+            AudioManager.instance.play("Skyde");
             GameObject bullet = Instantiate(Bullet, firePosition.transform.position, Quaternion.identity);
             bullet.GetComponent<Bullet>().gun = GetComponent<Gun>();
             cooldown = cooldownLength;

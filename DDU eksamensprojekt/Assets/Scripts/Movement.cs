@@ -13,11 +13,6 @@ public class Movement : MonoBehaviour
     public float jump;
     public Rigidbody rb;
 
-    float deaths;
-
-    public GameObject player;
-    public GameObject deathcount;
-
     public float speed = 10.0f;
     public float maxVelocityChange = 10.0f;
 
@@ -27,6 +22,8 @@ public class Movement : MonoBehaviour
 
     public PlayerControls controls;
 
+    public GameObject player;
+    public GameObject deathcount;
     public GameObject gun;
     public GameObject spawnPoint1;
     public GameObject spawnPoint2;
@@ -49,6 +46,7 @@ public class Movement : MonoBehaviour
         Grounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundLayerMask);
         if (Grounded)
         {
+            AudioManager.instance.play("Jump");
             rb.AddForce(new Vector3(0, jump, 0), ForceMode.Impulse);
         }
     }

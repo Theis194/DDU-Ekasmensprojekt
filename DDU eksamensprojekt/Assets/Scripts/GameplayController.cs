@@ -10,7 +10,7 @@ public class GameplayController : MonoBehaviour
 
     public Text nextGame;
 
-    void FixedUpdate()
+    void Update()
     {
         if(timer > 0)
         {
@@ -25,10 +25,9 @@ public class GameplayController : MonoBehaviour
 
     public IEnumerator StartNewGame()
     {
-        nextGame.enabled = true;
         timer = 10;
-        yield return new WaitForSeconds(15);
+        yield return new WaitForSeconds(10);
 
-        SceneManager.LoadScene("main");
+        SceneManager.LoadScene(1);
     }
 }

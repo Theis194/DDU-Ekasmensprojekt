@@ -23,7 +23,9 @@ public class Deathcount : MonoBehaviour
     public GameObject player3;
     public GameObject player4;
 
-    float gameTimer = 120;
+    float gameTimer = 60;
+
+    bool gameEnded = false;
 
     Text[] text = new Text[4];
     int[] playerDeaths = new int[4];
@@ -37,6 +39,7 @@ public class Deathcount : MonoBehaviour
     {
         if (gameTimer > 0)
         {
+            Debug.Log(gameTimer);
             string minutes = Mathf.FloorToInt(gameTimer / 60).ToString("0");
             string seconds = Mathf.RoundToInt(gameTimer % 60).ToString("00");
 
@@ -67,6 +70,7 @@ public class Deathcount : MonoBehaviour
                     break;
             }
         }
+
         
         if(player1Deaths >= 0)
             player1Text.text = player1Deaths.ToString();
@@ -80,13 +84,12 @@ public class Deathcount : MonoBehaviour
         if (player4Deaths >= 0)
             player4Text.text = player4Deaths.ToString();
 
-        Debug.Log(gameTimer);
-        if(gameTimer <= 0)
+        if(gameTimer <= 0 && !gameEnded)
         {
             player1.GetComponent<Movement>().enabled = false;
             player2.GetComponent<Movement>().enabled = false;
             player3.GetComponent<Movement>().enabled = false;
-            //player4.GetComponent<Movement>().enabled = false;
+            player4.GetComponent<Movement>().enabled = false;
 
             if (GetComponent<ControllerSetup>().players.Count == 2)
             {
@@ -105,15 +108,15 @@ public class Deathcount : MonoBehaviour
             }
             else if (GetComponent<ControllerSetup>().players.Count == 3)
             {
-                if ((player1Deaths > player2Deaths) && (player1Deaths > player3Deaths))
+                if ((player1Deaths < player2Deaths) && (player1Deaths < player3Deaths))
                 {
                     timer.text = "Green slime won!";
                 }
-                else if ((player1Deaths > player2Deaths) && (player1Deaths > player3Deaths))
+                else if ((player2Deaths < player1Deaths) && (player1Deaths < player3Deaths))
                 {
                     timer.text = "Blue slime won!";
                 }
-                else if ((player3Deaths > player2Deaths) && (player3Deaths > player4Deaths))
+                else if ((player3Deaths < player2Deaths) && (player3Deaths < player1Deaths))
                 {
                     timer.text = "Orange slime won!";
                 }
@@ -122,31 +125,31 @@ public class Deathcount : MonoBehaviour
                     timer.text = "Tie";
                 }
             }
-            //else if (GetComponent<ControllerSetup>().players.Count == 4)
-            //{
-            //    if ((player1Deaths > player2Deaths) && (player1Deaths > player3Deaths) && (player1Deaths > player4Deaths))
-            //    {
-            //        timer.text = "Green slime won!";
-            //    }
-            //    if ((player1Deaths > player2Deaths) && (player1Deaths > player3Deaths) && (player2Deaths > player4Deaths))
-            //    {
-            //        timer.text = "Blue slime won!";
-            //    }
-            //    if ((player3Deaths > player2Deaths) && (player3Deaths > player4Deaths) && (player3Deaths > player4Deaths))
-            //    {
-            //        timer.text = "Orange slime won!";
-            //    }
-            //    if ((player4Deaths > player2Deaths) && (player4Deaths > player3Deaths) && (player4Deaths > player1Deaths))
-            //    {
-            //        timer.text = "Red slime won!";
-            //    }
-            //    else
-            //    {
-            //        timer.text = "Tie";
-            //    }
-            //}
+            else if (GetComponent<ControllerSetup>().players.Count == 4)
+            {
+                if ((player1Deaths < player2Deaths) && (player1Deaths < player3Deaths) && (player1Deaths < player4Deaths))
+                {
+                    timer.text = "Green slime won!";
+                }
+                if ((player2Deaths < player1Deaths) && (player2Deaths < player3Deaths) && (player2Deaths < player4Deaths))
+                {
+                    timer.text = "Blue slime won!";
+                }
+                if ((player3Deaths < player2Deaths) && (player3Deaths < player4Deaths) && (player3Deaths < player1Deaths))
+                {
+                    timer.text = "Orange slime won!";
+                }
+                if ((player4Deaths < player2Deaths) && (player4Deaths < player3Deaths) && (player4Deaths < player1Deaths))
+                {
+                    timer.text = "Red slime won!";
+                }
+                else
+                {
+                    timer.text = "Tie";
+                }
+            }
+            GetComponent<GameplayController>().StartCoroutine("StartNewGame");
+            gameEnded = true;
         }
-
-        GetComponent<GameplayController>().StartCoroutine("StartNewGame");
     }
 }
