@@ -77,6 +77,7 @@ public class Movement : MonoBehaviour
         if(rb.transform.position.y < -10)
         {
             player.transform.position = spawnPoints[Random.Range(0, 3)].transform.position;
+            AudioManager.instance.play("Eliminate");
             deathcount.GetComponent<Deathcount>().deadPlayers.Add(this.name);
         }
 

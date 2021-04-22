@@ -1,6 +1,7 @@
 using System;
 using UnityEngine.Audio;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
@@ -28,6 +29,23 @@ public class AudioManager : MonoBehaviour
 
             s.source.volume = s.volume;
             s.source.pitch = s.pitch;
+            s.source.loop = s.looping;
+        }
+    }
+
+    private void Start()
+    {
+        switch (SceneManager.GetActiveScene().name)
+        {
+            case "Main":
+                play("MainMenuMusic");
+                break;
+            case "Map1":
+                play("Battle");
+                break;
+            case "TitleScene":
+                play("MainMenuMusic");
+                break;
         }
     }
 
@@ -35,5 +53,11 @@ public class AudioManager : MonoBehaviour
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
         s.source.Play();
+    }
+
+    public void stop(string name)
+    {
+        Sound s = Array.Find(sounds, sound => sound.name == name);
+        s.source.Stop();
     }
 }

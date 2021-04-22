@@ -26,8 +26,14 @@ public class GameplayController : MonoBehaviour
     public IEnumerator StartNewGame()
     {
         timer = 10;
+
+        AudioManager.instance.play("slutning");
+        AudioManager.instance.play("KlapSalve");
+
         yield return new WaitForSeconds(10);
 
-        SceneManager.LoadScene(1);
+        AudioManager.instance.stop("KlapSalve");
+
+        SceneManager.LoadScene(2);
     }
 }
