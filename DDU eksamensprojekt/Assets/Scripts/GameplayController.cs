@@ -17,7 +17,7 @@ public class GameplayController : MonoBehaviour
             string minutes = Mathf.FloorToInt(timer / 60).ToString("0");
             string seconds = Mathf.RoundToInt(timer % 60).ToString("00");
 
-            nextGame.text = "Next game will start in " + minutes + ":" + seconds;
+            nextGame.text = "Exiting to startscreen in " + minutes + ":" + seconds;
 
             timer -= Time.deltaTime;
         }
@@ -30,10 +30,12 @@ public class GameplayController : MonoBehaviour
         AudioManager.instance.play("slutning");
         AudioManager.instance.play("KlapSalve");
 
+        nextGame.gameObject.SetActive(true);
+
         yield return new WaitForSeconds(10);
 
         AudioManager.instance.stop("KlapSalve");
 
-        SceneManager.LoadScene(2);
+        GetComponent<ChangeScene>().Change();
     }
 }

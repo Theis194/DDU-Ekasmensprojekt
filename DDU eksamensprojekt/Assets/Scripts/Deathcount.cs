@@ -39,7 +39,6 @@ public class Deathcount : MonoBehaviour
     {
         if (gameTimer > 0)
         {
-            Debug.Log(gameTimer);
             string minutes = Mathf.FloorToInt(gameTimer / 60).ToString("0");
             string seconds = Mathf.RoundToInt(gameTimer % 60).ToString("00");
 

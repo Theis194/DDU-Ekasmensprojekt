@@ -52,6 +52,12 @@ public class AudioManager : MonoBehaviour
     public void play(string name)
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
+
+        if(s == null)
+        {
+            Debug.LogError(name +" doesn't exist in audiomanager");
+            return;
+        }
         s.source.Play();
     }
 

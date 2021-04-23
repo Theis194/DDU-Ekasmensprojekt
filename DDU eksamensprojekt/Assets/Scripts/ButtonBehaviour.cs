@@ -33,7 +33,16 @@ public class ButtonBehaviour : MonoBehaviour,ISelectHandler,IDeselectHandler
 
     public void ClickPlay()
     {
-        Debug.Log("lol");
-        SceneManager.LoadScene("Main");
+        SceneManager.LoadScene(2);
+    }
+
+    public void ClickExit()
+    {
+        Application.Quit();
+    }
+
+    public void ClickBack()
+    {
+        SceneManager.LoadScene(0);
     }
 }

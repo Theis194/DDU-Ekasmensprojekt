@@ -38,7 +38,7 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Restart",
+                    "name": "Pause",
                     "type": "Button",
                     "id": "8703ac88-e400-42b3-b877-998cfde020bf",
                     "expectedControlType": "Button",
@@ -94,11 +94,11 @@
                 {
                     "name": "",
                     "id": "1712a2b5-cd0d-4836-b012-178120522994",
-                    "path": "<Gamepad>/buttonNorth",
-                    "interactions": "",
+                    "path": "<Gamepad>/start",
+                    "interactions": "Tap",
                     "processors": "",
                     "groups": "",
-                    "action": "Restart",
+                    "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
